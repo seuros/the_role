@@ -1,5 +1,3 @@
-require 'haml'
-
 require 'the_role/hash'
 require 'the_role/config'
 require 'the_role/version'
@@ -30,7 +28,7 @@ module TheRole
   end
 end
 
-_root_ = File.expand_path('../../',  __FILE__)
+_root_ = File.expand_path('../../', __FILE__)
 
 # Loading of concerns
 require "#{_root_}/app/controllers/concerns/controller.rb"
