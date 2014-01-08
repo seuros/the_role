@@ -24,17 +24,17 @@ class Hash
 
   unless {}.respond_to?(:deep_stringify_keys)
     def deep_stringify_keys
-      deep_transform_keys{ |key| key.to_s }
+      deep_transform_keys { |key| key.to_s }
     end
 
     def deep_stringify_keys!
-      deep_transform_keys!{ |key| key.to_s }
+      deep_transform_keys! { |key| key.to_s }
     end
   end
 
   unless {}.respond_to?(:underscorify_keys)
     def underscorify_keys
-      deep_transform_keys{ |key| TheRoleParam.process(key) }
+      deep_transform_keys { |key| TheRole::Param.process(key) }
     end
 
     def underscorify_keys!

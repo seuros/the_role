@@ -18,9 +18,11 @@ class TheRoleGenerator < Rails::Generators::NamedBase
     end
   end
 
-  private
+  protected
 
-  def root_path; TheRole::Engine.root; end
+  def root_path;
+    TheRole::Engine.root;
+  end
 
   def gen_name
     name.to_s.downcase
@@ -41,11 +43,11 @@ class TheRoleGenerator < Rails::Generators::NamedBase
     puts 'TheRole'
     puts '~'*40
 
-    unless Role.with_name(:admin)
-      role = Role.create(
-        name: :admin,
-        title: "role for admin",
-        description:"this user can do anything"
+    unless TheRole.role_class.with_name(:admin)
+      role = TheRole.role_class.create(
+          name: :admin,
+          title: "role for admin",
+          description: "this user can do anything"
       )
 
       role.create_rule(:system, :administrator)
@@ -58,7 +60,7 @@ class TheRoleGenerator < Rails::Generators::NamedBase
 
     puts "Now you can makes any user as Admin:"
     puts "> bin/rails c"
-    puts "> User.first.update( role: Role.with_name(:admin) )"
+    puts "> User.first.update( role: #{TheRole.config.role_class_name}.with_name(:admin) )"
     puts '~'*40
   end
 end

@@ -37,19 +37,19 @@ describe User do
         mrole = FactoryGirl.create(:role_moderator)
 
         @moderator = FactoryGirl.create(:user, role: mrole)
-        @user      = FactoryGirl.create(:user)
+        @user = FactoryGirl.create(:user)
 
         @moderator_page = FactoryGirl.create(:page, user: @moderator)
-        @user_page      = FactoryGirl.create(:page, user: @user)
+        @user_page = FactoryGirl.create(:page, user: @user)
       end
 
       it 'Moderator is owner of any Page' do
         @moderator.owner?(@moderator_page).should be_true
-        @moderator.owner?(@user_page).should      be_true
+        @moderator.owner?(@user_page).should be_true
       end
 
       it 'User is owner of his Pages' do
-        @user.owner?(@user_page).should      be_true
+        @user.owner?(@user_page).should be_true
         @user.owner?(@moderator_page).should be_false
       end
     end
@@ -90,7 +90,7 @@ describe User do
     end
 
     it "User should gives false on any request" do
-      @user.has_role?(:pages, :index).should     be_false
+      @user.has_role?(:pages, :index).should be_false
       @user.has_role?(:moderator, :pages).should be_false
     end
   end
@@ -102,14 +102,14 @@ describe User do
       FactoryGirl.create(:user)
       @user = User.first
     end
-    
+
     it "User and Role should exists" do
-      Role.count.should be 1
+      TheRole.role_class.count.should be 1
       User.count.should be 1
     end
 
     it "Role should nave name :user" do
-      Role.first.name.should eq 'user'
+      TheRole.role_class.first.name.should eq 'user'
     end
 
     it "User should have default Role" do
@@ -117,7 +117,7 @@ describe User do
     end
 
     it "User has Role for Pages" do
-      @user.has_role?(:pages, :index).should   be_true
+      @user.has_role?(:pages, :index).should be_true
       @user.has_role?(:pages, :destroy).should be_true
     end
 
@@ -135,30 +135,30 @@ describe User do
 
     # Any
     it "should has any rules 1" do
-      @user.has_role?(:pages, :index).should  be_true
+      @user.has_role?(:pages, :index).should be_true
       @user.has_role?(:pages, :update).should be_true
 
-      @user.any_role?({ pages: :index  }).should be_true
-      @user.any_role?({ pages: :update }).should be_true
-      @user.any_role?({ pages: :index, pages: :update}).should be_true
+      @user.any_role?({pages: :index}).should be_true
+      @user.any_role?({pages: :update}).should be_true
+      @user.any_role?({pages: :index, pages: :update}).should be_true
     end
 
     it "should has any rules 2" do
-      @user.has_role?(:pages,    :index).should be_true
+      @user.has_role?(:pages, :index).should be_true
       @user.has_role?(:articles, :index).should be_false
 
-      @user.any_role?({ pages:    :index }).should be_true
-      @user.any_role?({ articles: :index }).should be_false
+      @user.any_role?({pages: :index}).should be_true
+      @user.any_role?({articles: :index}).should be_false
 
-      @user.any_role?({ articles: :index }).should be_false
-      @user.any_role?({ pages: :index, articles: :index}).should be_true
-      @user.any_role?({ pages: :index, pages:    :update}).should be_true
+      @user.any_role?({articles: :index}).should be_false
+      @user.any_role?({pages: :index, articles: :index}).should be_true
+      @user.any_role?({pages: :index, pages: :update}).should be_true
     end
 
     it "should has any rules 3, easy syntaxis" do
       @user.any_role?(articles: :index).should be_false
       @user.any_role?(pages: :index, articles: :index).should be_true
-      @user.any_role?(pages: :index, pages:    :update).should be_true
+      @user.any_role?(pages: :index, pages: :update).should be_true
     end
   end
 end
